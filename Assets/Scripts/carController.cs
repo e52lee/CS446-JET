@@ -10,43 +10,48 @@ public class carController : MonoBehaviour {
 	public float minSwipeDistY;
 	public float minSwipeDistX;	
 	private Vector2 startPos;
+	public float touchStart = 0f;
 
 	void Start () {
 		position = transform.position;
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		position.x += Input.GetAxis ("Horizontal") * carSpeed * Time.deltaTime;
-		transform.position = position;
+		/*position.x += Input.GetAxis ("Horizontal") * carSpeed * Time.deltaTime;
+		transform.position = position;*/
 
-		if (Input.touchCount > 0){
-			Touch touch = Input.touches[0];
-			switch (touch.phase) 
-			{	
-			case TouchPhase.Began:
-				startPos = touch.position;
-				break;
-			
-			case TouchPhase.Ended:
 
-				float swipeDistHorizontal = (new Vector3(touch.position.x,0, 0) - new Vector3(startPos.x, 0, 0)).magnitude;
-				
-				if (swipeDistHorizontal > minSwipeDistX) 	
-				{		
-					float swipeValue = Mathf.Sign(touch.position.x - startPos.x);
-							
-					if (swipeValue > 0){//right swipe		
-						position.x += 5f * carSpeed * Time.deltaTime;
-						transform.position = position;	
-					}
-					else if (swipeValue < 0){//left swipe	
-						position.x -= 5f * carSpeed * Time.deltaTime;
-						transform.position = position;
-					}	
-				}
-				break;
-			}
+		if(Input.GetMouseButtonDown(0)){
+			touchStart = Input.mousePosition.x;
 		}
+		if(Input.GetMouseButtonUp(0)){
+			float delta = Input.mousePosition.x - touchStart;
+			if(delta<-50f){
+				transform.position = new Vector3 (position.x - 3.5f * carSpeed * Time.deltaTime,
+					position.y, position.z);
+				//move right
+			}
+
+			else if(delta > 50f){
+				transform.position = new Vector3 (position.x + 3.5f * carSpeed * Time.deltaTime,
+					position.y, position.z);
+				//move left
+			}	
+		}
+
+		/*if(Vector3.Distance (transform.position, position)> 4.1f){
+			if(transform.position.x > position.x){
+				transform.position = new Vector3 (transform.position.x - carSpeed,
+					transform.position.y, transform.position.z);
+			}
+			else {
+				transform.position = new Vector3 (transform.position.x + carSpeed,
+					transform.position.y, transform.position.z);
+			}
+			if(Vector3.Distance (transform.position, position) <= .4f){
+				transform.position = position;
+			}
+		}*/
 	}
 }

@@ -463,6 +463,7 @@ PlayerSettings:
   vrEditorSettings: {}
   cloudServicesEnabled:
     Collab: 1
+    UNet: 1
   cloudProjectId: 24bb0cb4-f383-49bc-b4ee-8d94e2deb4b0
   projectName: JET
   organizationId: ivantwj

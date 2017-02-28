@@ -87,7 +87,6 @@
     <Compile Include="Assets\Scripts\LoadSceneOnClick.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Scroll.cs" />
-    <Compile Include="Assets\Scripts\TouchController.cs" />
     <Compile Include="Assets\Scripts\carController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

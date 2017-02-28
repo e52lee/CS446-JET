@@ -24,7 +24,7 @@ public class Scroll : MonoBehaviour {
 		}
 		if (Input.GetMouseButtonUp (0)) {
 			float delta = Input.mousePosition.y - touchStart;
-			if (delta < -50f) {
+			if (delta > -50f) {
 				if (speed <= 2f) {
 					speed = speed * 3 / 2;
 
@@ -32,7 +32,7 @@ public class Scroll : MonoBehaviour {
 				//move up
 			}
 
-			if (delta > 50f) {
+			if (delta < 50f) {
 				speed = speed / 3 * 2;
 				//move down
 			}	

@@ -40,6 +40,8 @@ public class TouchController : MonoBehaviour {
 
 	/**
 	 * Get the swipe direction
+	 * 
+	 * @return The swipe direction -- see the Swipe enum above
 	 */
 	public static Swipe GetSwipeDirection () {
 		return swipeDirection;

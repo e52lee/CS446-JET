@@ -1,57 +1,55 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class carController : MonoBehaviour {
+public class CarController : MonoBehaviour {
 
-	public float carSpeed;
-	Vector3 position;
+    private const float LANE_CHANGE_SPEED = 7.5f;   // The speed at which the car changes lanes
+    private const float LEFT_LANE_POSITION = -0.6f; // The position of the car in the left lane
+    private const float RIGHT_LANE_POSITION = 0.9f; // The position of the car in the right lane
 
-	public float minSwipeDistY;
-	public float minSwipeDistX;	
-	private Vector2 startPos;
-	public float touchStart = 0f;
+    private float targetPositionX; // Target horizontal position
 
-	void Start () {
-		position = transform.position;
-	}
+    /**
+     * Runs at the start of the scene
+     */
+    void Start () {
+        targetPositionX = transform.position.x;
+    }
 
-	// Update is called once per frame
-	void Update () {
-		/*position.x += Input.GetAxis ("Horizontal") * carSpeed * Time.deltaTime;
-		transform.position = position;*/
+    /**
+     * Update is called once per frame
+     */
+    void Update () {
+		UpdateTargetPosition ();
+        MoveToTargetPosition ();
+    }
 
+    /**
+     * Update the target position if a horizontal swipe has occurred
+     */
+    private void UpdateTargetPosition () {
+        Swipe swipeDirection = TouchController.GetSwipeDirection ();
 
-		if(Input.GetMouseButtonDown(0)){
-			touchStart = Input.mousePosition.x;
-		}
-		if(Input.GetMouseButtonUp(0)){
-			float delta = Input.mousePosition.x - touchStart;
-			if(delta<-50f){
-				transform.position = new Vector3 (position.x - 3.5f * carSpeed * Time.deltaTime,
-					position.y, position.z);
-				//move right
-			}
+        if (swipeDirection == Swipe.Left) {
+            targetPositionX = LEFT_LANE_POSITION;
+        } else if (swipeDirection == Swipe.Right) {
+            targetPositionX = RIGHT_LANE_POSITION;
+        }
+    }
 
-			else if(delta > 50f){
-				transform.position = new Vector3 (position.x + 3.5f * carSpeed * Time.deltaTime,
-					position.y, position.z);
-				//move left
-			}	
-		}
+    /**
+     * Move the car to its target position if it isn't already there
+     */
+    private void MoveToTargetPosition () {
+        Vector3 position = transform.position;
 
-		/*if(Vector3.Distance (transform.position, position)> 4.1f){
-			if(transform.position.x > position.x){
-				transform.position = new Vector3 (transform.position.x - carSpeed,
-					transform.position.y, transform.position.z);
-			}
-			else {
-				transform.position = new Vector3 (transform.position.x + carSpeed,
-					transform.position.y, transform.position.z);
-			}
-			if(Vector3.Distance (transform.position, position) <= .4f){
-				transform.position = position;
-			}
-		}*/
-	}
+        if (position.x > targetPositionX) {
+            position.x = Mathf.Max (position.x - LANE_CHANGE_SPEED * Time.deltaTime, LEFT_LANE_POSITION);
+        } else if (position.x < targetPositionX) {
+            position.x = Mathf.Min (position.x + LANE_CHANGE_SPEED * Time.deltaTime, RIGHT_LANE_POSITION);
+        }
+
+        transform.position = new Vector3 (position.x, position.y, position.z);
+    }
 }

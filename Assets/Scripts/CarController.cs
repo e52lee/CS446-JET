@@ -11,7 +11,7 @@ public class CarController : MonoBehaviour {
     private float targetPositionX; // Target horizontal position
 
     /**
-     * Runs at the start of the scene
+     * Initialization
      */
     void Start () {
         targetPositionX = transform.position.x;

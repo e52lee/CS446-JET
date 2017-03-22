@@ -8,8 +8,6 @@ using UnityEngine;
 public class CarController : MonoBehaviour {
 
 	private const float LANE_CHANGE_SPEED = 7.5f;   // The speed at which the car changes lanes
-	private const float LEFT_LANE_POSITION = -0.6f; // The position of the car in the left lane
-	private const float RIGHT_LANE_POSITION = 0.9f; // The position of the car in the right lane
 
 	private float targetPositionX; // Target horizontal position
 
@@ -35,9 +33,9 @@ public class CarController : MonoBehaviour {
 		Swipe swipeDirection = TouchController.GetSwipeDirection ();
 
 		if (swipeDirection == Swipe.Left) {
-			targetPositionX = LEFT_LANE_POSITION;
+			targetPositionX = Globals.LEFT_LANE_POSITION;
 		} else if (swipeDirection == Swipe.Right) {
-			targetPositionX = RIGHT_LANE_POSITION;
+			targetPositionX = Globals.RIGHT_LANE_POSITION;
 		}
 	}
 
@@ -48,11 +46,22 @@ public class CarController : MonoBehaviour {
 		Vector3 position = transform.position;
 
 		if (position.x > targetPositionX) {
-			position.x = Mathf.Max (position.x - LANE_CHANGE_SPEED * Time.deltaTime, LEFT_LANE_POSITION);
+			position.x = Mathf.Max (position.x - LANE_CHANGE_SPEED * Time.deltaTime, Globals.LEFT_LANE_POSITION);
 		} else if (position.x < targetPositionX) {
-			position.x = Mathf.Min (position.x + LANE_CHANGE_SPEED * Time.deltaTime, RIGHT_LANE_POSITION);
+			position.x = Mathf.Min (position.x + LANE_CHANGE_SPEED * Time.deltaTime, Globals.RIGHT_LANE_POSITION);
 		}
 
 		transform.position = new Vector3 (position.x, position.y, position.z);
+	}
+
+	/**
+	 * React to collision
+	 *
+	 * @param col The collision object
+	 */
+	void OnCollisionEnter2D (Collision2D col) {
+		if (col.gameObject.tag == "ObstacleTag") {
+			Object.Destroy (this.gameObject); // TODO: Replace with call to some GameOver method
+		}
 	}
 }

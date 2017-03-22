@@ -30,6 +30,9 @@ public class BackgroundController : MonoBehaviour {
 		// Get the current speed
 		float currentSpeed = SpeedController.GetRealSpeed ();
 
+		// Divide by 10 to go from world units to texture units
+		currentSpeed /= 10f;
+
 		// Adjust the offset
 		offsetY += currentSpeed * Time.deltaTime;
 

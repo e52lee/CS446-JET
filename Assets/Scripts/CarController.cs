@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 /**
  * This class controls the car and allows the user to switch lanes by swiping left or right
  */
@@ -10,11 +12,13 @@ public class CarController : MonoBehaviour {
 	private const float LANE_CHANGE_SPEED = 7.5f;   // The speed at which the car changes lanes
 
 	private float targetPositionX; // Target horizontal position
+	public uiManager ui;	
 
 	/**
 	 * Initialization
 	 */
 	void Start () {
+		//ui = GetComponent<uiManager>();
 		targetPositionX = transform.position.x;
 	}
 
@@ -62,12 +66,15 @@ public class CarController : MonoBehaviour {
 	void OnCollisionEnter2D (Collision2D col) {
 		if (col.gameObject.tag == "ObstacleTag") {
 			Object.Destroy (this.gameObject); // TODO: Replace with call to some GameOver method
+			ui.gameOverActivated();
 			GameOver();
 		}
 	}
 
 	void GameOver () {
+		//save highscore
 		Application.LoadLevel("GameOver");
-		//Application.LoadLevel(Application.loadedLevel);
+			//Application.LoadLevel(Application.loadedLevel);
+		
 	}
 }

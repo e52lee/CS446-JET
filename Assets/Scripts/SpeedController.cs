@@ -28,7 +28,8 @@ public class SpeedController : MonoBehaviour {
 	 * Initialization
 	 */
 	void Start () {
-		// Do nothing
+		currentSpeed = START_SPEED;
+		targetSpeed = START_SPEED;
 	}
 
 	/**
@@ -77,4 +78,5 @@ public class SpeedController : MonoBehaviour {
 	private void AccelerateToTargetSpeed () {
 		currentSpeed += (targetSpeed - currentSpeed) * ACCELERATION * Time.deltaTime;
 	}
+
 }

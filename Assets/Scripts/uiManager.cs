@@ -22,9 +22,11 @@ public class uiManager : MonoBehaviour {
 		score = 0;
 		if(!PlayerPrefs.HasKey("HighScore") != null){
 			hiScore =  PlayerPrefs.GetInt("HighScore");
+			hiScoreText.text = "High Score: " + hiScore;
 		}
 		else {
-			hiScore = 0;
+			//hiScore = 0;
+			hiScoreText.text = "High Score: 0";
 		}
 		InvokeRepeating("scoreUpdate", 1.0f, 0.5f);
 	}
@@ -34,7 +36,7 @@ public class uiManager : MonoBehaviour {
 	 */
 	void Update () {
 		scoreText.text = "Score: " + score;
-		hiScoreText.text = "Score: " + hiScore;
+		//hiScoreText.text = "High Score: " + hiScore;
 	}
 
 	void scoreUpdate () {
@@ -42,12 +44,14 @@ public class uiManager : MonoBehaviour {
 			score += 1;
 		}
 		if(score > hiScore){
-			hiScore = score;
-			PlayerPrefs.SetInt("HighScore", hiScore);
+			//hiScore = score;
+			PlayerPrefs.SetInt("HighScore", score);
 		}
 	}
 
 	public void gameOverActivated(){
 		gameOver = true;
+
+		//PlayerPrefs.DeleteAll();
 	}
 }

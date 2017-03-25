@@ -65,7 +65,7 @@ public class CarController : MonoBehaviour {
 	 */
 	void OnCollisionEnter2D (Collision2D col) {
 		if (col.gameObject.tag == "ObstacleTag") {
-			Object.Destroy (this.gameObject); // TODO: Replace with call to some GameOver method
+			//Object.Destroy (this.gameObject); // TODO: Replace with call to some GameOver method
 			ui.gameOverActivated();
 			GameOver();
 		}

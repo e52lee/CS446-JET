@@ -9,9 +9,11 @@ public class uiManager : MonoBehaviour {
 	// Use this for initialization
 	public Text scoreText;
 	public Text hiScoreText;
+	public Text speedText;
 	bool gameOver;
 	int score;
 	int hiScore;
+	int speed;
 
 	
 	/**
@@ -20,6 +22,7 @@ public class uiManager : MonoBehaviour {
 	void Start () {
 		gameOver = false;
 		score = 0;
+		speed = 0;
 		if(!PlayerPrefs.HasKey("HighScore") != null){
 			hiScore =  PlayerPrefs.GetInt("HighScore");
 			hiScoreText.text = "High Score: " + hiScore;
@@ -29,6 +32,8 @@ public class uiManager : MonoBehaviour {
 			hiScoreText.text = "High Score: 0";
 		}
 		InvokeRepeating("scoreUpdate", 1.0f, 0.5f);
+		
+		speed = (int) GameObject.Find("SpeedController").GetComponent<SpeedController>().GetDisplaySpeed();
 	}
 	
 	/**
@@ -36,6 +41,8 @@ public class uiManager : MonoBehaviour {
 	 */
 	void Update () {
 		scoreText.text = "Score: " + score;
+		speed = (int) GameObject.Find("SpeedController").GetComponent<SpeedController>().GetDisplaySpeed();
+		speedText.text = "Speed: " + speed;
 		//hiScoreText.text = "High Score: " + hiScore;
 	}
 

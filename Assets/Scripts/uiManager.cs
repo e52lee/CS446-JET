@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,11 +10,13 @@ public class uiManager : MonoBehaviour {
 	public Text scoreText;
 	public Text hiScoreText;
 	public Text speedText;
+	public Text speedLimitText;
 	bool gameOver;
 	int score;
 	int hiScore;
 	int speed;
-
+	int speedLimit;
+	int interval;
 	
 	/**
 	 * Initialization
@@ -23,6 +25,7 @@ public class uiManager : MonoBehaviour {
 		gameOver = false;
 		score = 0;
 		speed = 0;
+		
 		if(!PlayerPrefs.HasKey("HighScore") != null){
 			hiScore =  PlayerPrefs.GetInt("HighScore");
 			hiScoreText.text = "High Score: " + hiScore;
@@ -32,6 +35,9 @@ public class uiManager : MonoBehaviour {
 			hiScoreText.text = "High Score: 0";
 		}
 		InvokeRepeating("scoreUpdate", 1.0f, 0.5f);
+		
+		interval = Random.Range(5, 10);
+		InvokeRepeating("limitUpdate", 0, interval);
 		
 		speed = (int) GameObject.Find("SpeedController").GetComponent<SpeedController>().GetDisplaySpeed();
 	}
@@ -44,11 +50,27 @@ public class uiManager : MonoBehaviour {
 		speed = (int) GameObject.Find("SpeedController").GetComponent<SpeedController>().GetDisplaySpeed();
 		speedText.text = "Speed: " + speed;
 		//hiScoreText.text = "High Score: " + hiScore;
+		
+		speedLimitText.text = "Speed Limit \n        " + speedLimit;
 	}
-
+	
+	void limitUpdate () {
+		if(!gameOver){
+			speedLimit = Random.Range(5, 12);
+			speedLimit = speedLimit * 10;
+		}
+	}
+	
 	void scoreUpdate () {
 		if(!gameOver){
-			score += 1;
+			speed = (int) GameObject.Find("SpeedController").GetComponent<SpeedController>().GetDisplaySpeed();
+			if (speed > speedLimit){
+				if (score > 0) {
+					score -= 1;
+				}
+			} else {
+				score += 1;
+			}
 		}
 		if(score > hiScore){
 			//hiScore = score;

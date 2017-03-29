@@ -25,7 +25,7 @@ public class ObstacleMoving : MonoBehaviour {
 	void Start () {
 		// Do nothing
 	}
-	
+
 	/**
 	 * Update is called once per frame
 	 */

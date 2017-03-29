@@ -13,12 +13,12 @@ using UnityEngine;
  */
 public class SpeedController : MonoBehaviour {
 
-	private const int START_SPEED = 50; // The initial speed
-	private const int INCREMENT = 5;   // Amount to increment speed upon swipe
-	private const int MIN_SPEED = 40;   // The minimum speed
-	private const int MAX_SPEED = 120;  // The maximum speed
+	public const int START_SPEED = 50; // The initial speed
+	public const int INCREMENT = 5;    // Amount to increment speed upon swipe
+	public const int MIN_SPEED = 40;   // The minimum speed
+	public const int MAX_SPEED = 120;  // The maximum speed
 
-	private const float ACCELERATION = 0.7f; // The acceleration
+	public const float ACCELERATION = 1.0f; // The acceleration
 
 	// Initialize these here in case other objects try to get the speed before Start is called
 	private static float currentSpeed = START_SPEED; // The current speed
@@ -45,7 +45,7 @@ public class SpeedController : MonoBehaviour {
 	 * 
 	 * @return The current display speed
 	 */
-	public float GetDisplaySpeed() {
+	public static float GetDisplaySpeed() {
 		return currentSpeed;
 	}
 
@@ -78,5 +78,4 @@ public class SpeedController : MonoBehaviour {
 	private void AccelerateToTargetSpeed () {
 		currentSpeed += (targetSpeed - currentSpeed) * ACCELERATION * Time.deltaTime;
 	}
-
 }

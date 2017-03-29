@@ -293,11 +293,11 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 2
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -446,7 +446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1790734341}
-  hiScoreText: {fileID: 2030640739}
+  highScoreText: {fileID: 2030640739}
   speedText: {fileID: 1920965919}
   speedLimitText: {fileID: 729167700}
 --- !u!4 &845018724
@@ -461,6 +461,46 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &937626012
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 937626014}
+  - component: {fileID: 937626013}
+  m_Layer: 0
+  m_Name: GameState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &937626013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 937626012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a230e7e9ef3498db12f62650bd1d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &937626014
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 937626012}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1142144108
 GameObject:
@@ -511,7 +551,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.15138407, g: 0.41176468, b: 0.22860038, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -667,7 +707,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a55901e3951e7b949b67bdba2c782092, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ui: {fileID: 845018723}
 --- !u!61 &1568123490
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -860,6 +899,7 @@ GameObject:
   - component: {fileID: 1790734340}
   - component: {fileID: 1790734342}
   - component: {fileID: 1790734341}
+  - component: {fileID: 1790734343}
   m_Layer: 5
   m_Name: Score
   m_TagString: Untagged
@@ -924,6 +964,25 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1790734339}
+--- !u!223 &1790734343
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1790734339}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &1920965917
 GameObject:
   m_ObjectHideFlags: 0
@@ -1030,7 +1089,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 101, y: -17.4}
+  m_AnchoredPosition: {x: 101, y: -17.400024}
   m_SizeDelta: {x: 153.5, y: 20.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2030640739

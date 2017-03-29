@@ -6,12 +6,15 @@ using UnityEngine.UI;
 /**
  * This class handles the UI
  */
-public class uiManager : MonoBehaviour {
+public class Display : MonoBehaviour {
 
 	public Text scoreText;
 	public Text highScoreText;
 	public Text speedText;
+	public Text speedTextLabel;
 	public Text speedLimitText;
+
+	private bool speedWarning;
 	
 	/**
 	 * Initialization
@@ -24,6 +27,8 @@ public class uiManager : MonoBehaviour {
 		}
 
 		highScoreText.text = "High Score: " + highScore;
+
+		speedWarning = false;
 	}
 	
 	/**
@@ -34,8 +39,18 @@ public class uiManager : MonoBehaviour {
 		int speed = Mathf.RoundToInt (SpeedController.GetDisplaySpeed ());
 		int speedLimit = GameState.speedLimit;
 
+		if (speedWarning && GameState.UserIsWithinLimit ()) {
+			speedTextLabel.color = new Color(0, 0, 0);
+			speedText.color = new Color(0, 0, 0);
+			speedWarning = false;
+		} else if (!speedWarning && !GameState.UserIsWithinLimit ()) {
+			speedTextLabel.color = new Color(1, 0, 0);
+			speedText.color = new Color(1, 0, 0);
+			speedWarning = true;
+		}
+
 		scoreText.text = "Score: " + score;
-		speedText.text = "Speed: " + speed;
-		speedLimitText.text = "Speed Limit \n        " + speedLimit;
+		speedText.text = "" + speed;
+		speedLimitText.text = "" + speedLimit;
 	}
 }

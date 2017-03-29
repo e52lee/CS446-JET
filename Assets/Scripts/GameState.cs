@@ -7,14 +7,22 @@ using UnityEngine;
  */
 public class GameState : MonoBehaviour {
 
+	public static int OVER_THRESH = 5;  // Max speed over limit before losing points
+	public static int UNDER_THRESH = 5; // Max speed under limit before losing points
+
 	public const int START_LIMIT = 50; // Starting speed limit
 	public const int MIN_LIMIT = 50;   // Minimum speed limit
-	public const int MAX_LIMIT = 120;  // Maximum speed limit
+	public const int MAX_LIMIT = 100;  // Maximum speed limit
+
+	public const int MIN_DELAY = 10; // Minimum time to wait before changing limit
+	public const int MAX_DELAY = 15; // Maximum time to wait before changing limit
 
 	public static int score;      // The player's score
 	public static int highScore;  // The player's high score
 	public static int speedLimit; // The speed limit
 	public static bool gameOver;  // Whether the game is over
+
+	private float limitTimer;
 
 	/**
 	 * Use this for initialization
@@ -29,17 +37,39 @@ public class GameState : MonoBehaviour {
 			highScore = PlayerPrefs.GetInt("HighScore");
 		}
 
-		InvokeRepeating("UpdateScore", 1f, 1f);
+		limitTimer = Random.Range (MIN_DELAY, MAX_DELAY);
 
-		int interval = Random.Range(5, 8);
-		InvokeRepeating("ChangeSpeedLimit", interval, interval);
+		InvokeRepeating("UpdateScore", 1f, 1f);
 	}
 	
 	/**
 	 * Update is called once per frame
 	 */
 	void Update () {
-		// Do nothing
+		limitTimer -= Time.deltaTime;
+
+		if (limitTimer <= 0) {
+			// Change the speed limit
+			ChangeSpeedLimit ();
+
+			// Reset the timer to a random delay
+			limitTimer = Random.Range (MIN_DELAY, MAX_DELAY);
+		}
+	}
+
+	/**
+	 * Check if user is within the speed limit threshold
+	 *
+	 * @return True if the user is within the speed limit threshold, false otherwise
+	 */
+	public static bool UserIsWithinLimit () {
+		int speed = Mathf.RoundToInt (SpeedController.GetDisplaySpeed ());
+
+		if (speed < speedLimit - UNDER_THRESH || speed > speedLimit + OVER_THRESH) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -53,14 +83,20 @@ public class GameState : MonoBehaviour {
 	 * Change the speed limit
 	 */
 	private void ChangeSpeedLimit () {
-		// Do not change the speed limit by more than 30
-		int lowerBound = Mathf.Max (MIN_LIMIT, speedLimit - 30);
-		int upperBound = Mathf.Min (MAX_LIMIT, speedLimit + 30);
+		if (gameOver) return;
 
-		if (!gameOver) {
-			speedLimit = Random.Range(lowerBound, upperBound);
-			speedLimit = Mathf.RoundToInt(speedLimit / 10) * 10; // Round to nearest 10
+		// Do not change the speed limit by more than 20
+		int lowerBound = Mathf.Max (MIN_LIMIT, speedLimit - 20);
+		int upperBound = Mathf.Min (MAX_LIMIT, speedLimit + 20);
+
+		// Make sure new speed limit is different
+		int tempLimit = speedLimit;
+		while (tempLimit == speedLimit) {
+			tempLimit = Random.Range(lowerBound, upperBound);
+			tempLimit = Mathf.RoundToInt(tempLimit / 10) * 10; // Round to nearest 10
 		}
+
+		speedLimit = tempLimit;
 	}
 
 	/**
@@ -68,14 +104,10 @@ public class GameState : MonoBehaviour {
 	 */
 	private void UpdateScore () {
 		if (!gameOver) {
-			int speed = Mathf.RoundToInt (SpeedController.GetDisplaySpeed ());
-
-			if (speed > speedLimit) {
-				if (score > 0) {
-					score -= 1;
-				}
-			} else {
+			if (UserIsWithinLimit ()) {
 				score += 1;
+			} else if (score > 0) {
+				score -= 1;
 			}
 		}
 

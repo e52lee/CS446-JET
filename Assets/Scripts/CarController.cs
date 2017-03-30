@@ -10,7 +10,7 @@ public class CarController : MonoBehaviour {
 
 	private const float LANE_CHANGE_SPEED = 7.5f;   // The speed at which the car changes lanes
 
-	private float targetPositionX; // Target horizontal position
+	public float targetPositionX; // Target horizontal position
 
 	/**
 	 * Initialization

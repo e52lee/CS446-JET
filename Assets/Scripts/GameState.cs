@@ -7,8 +7,10 @@ using UnityEngine;
  */
 public class GameState : MonoBehaviour {
 
-	public static int OVER_THRESH = 5;  // Max speed over limit before losing points
-	public static int UNDER_THRESH = 5; // Max speed under limit before losing points
+	public static int RIGHT_LANE_OVER_THRESH = 5;  // Max speed over limit before losing points
+	public static int RIGHT_LANE_UNDER_THRESH = 5; // Max speed under limit before losing points
+	public static int LEFT_LANE_OVER_THRESH = 10;  // Max speed over limit before losing points
+	public static int LEFT_LANE_UNDER_THRESH = 0; // Max speed under limit before losing points
 
 	public const int START_LIMIT = 50; // Starting speed limit
 	public const int MIN_LIMIT = 50;   // Minimum speed limit
@@ -65,7 +67,15 @@ public class GameState : MonoBehaviour {
 	public static bool UserIsWithinLimit () {
 		int speed = Mathf.RoundToInt (SpeedController.GetDisplaySpeed ());
 
-		if (speed < speedLimit - UNDER_THRESH || speed > speedLimit + OVER_THRESH) {
+		GameObject Car = GameObject.Find ("Car");
+		CarController carController = Car.GetComponent<CarController> ();
+
+		if ((carController.targetPositionX == Globals.LEFT_LANE_POSITION) &&
+			(speed < speedLimit - LEFT_LANE_UNDER_THRESH || speed > speedLimit + LEFT_LANE_OVER_THRESH)) {
+			return false;
+		}
+		else if ((carController.targetPositionX == Globals.RIGHT_LANE_POSITION) &&
+			(speed < speedLimit - RIGHT_LANE_UNDER_THRESH || speed > speedLimit + RIGHT_LANE_OVER_THRESH)) {
 			return false;
 		}
 

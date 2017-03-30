@@ -31,13 +31,9 @@ public class GameState : MonoBehaviour {
 	 */
 	void Start () {
 		score = 0;
-		highScore = 0;
+		highScore = PlayerPrefs.GetInt("HighScore", 0);
 		speedLimit = START_LIMIT;
 		gameOver = false;
-
-		if (PlayerPrefs.HasKey("HighScore")) {
-			highScore = PlayerPrefs.GetInt("HighScore");
-		}
 
 		limitTimer = Random.Range (MIN_DELAY, MAX_DELAY);
 
@@ -121,8 +117,6 @@ public class GameState : MonoBehaviour {
 			}
 		}
 
-		if (score > highScore) {
-			PlayerPrefs.SetInt("HighScore", score);
-		}
+		PlayerPrefs.SetInt("Score", score);
 	}
 }
